@@ -14,8 +14,7 @@ from subprocess import call
 import errno
 
 import getopt
-import api_keys
-import freesound
+from freesound import freesound
 import urllib2
 
 
