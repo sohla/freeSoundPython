@@ -29,13 +29,18 @@ fsDownloader
 		# 0 - Creative Commons 0
 		# 1 - Attribution
 		# 2 - Attribution Noncommercial
+	-- amount (int)
+		number of sounds to get
+	-- mp3 (bool)
+		downlaod mp3 preview
 
 [args]
 	search terms
 '''
 
 freesound_client = freesound.FreesoundClient()
-freesound_client.set_token("bfa791a021762f7c6cb70088c720855a0c5f8f49")
+# freesound_client.set_token("bfa791a021762f7c6cb70088c720855a0c5f8f49")
+freesound_client.set_token("ymgL9XPzSyjLHj1kWSufNnzqFife6S", auth_type='oauth')
 
 
 class Usage(Exception):
@@ -134,9 +139,9 @@ def main(argv=None):
 
 		# build params and search
 		s_duration = " duration:["+  s_min_duration +" TO "+ s_max_duration+"]"
-		s_filter = s_duration + s_license
+		s_filter = s_duration + s_license + " type:(wav OR aif OR aiff)"
 		print "searching for %s %s" % (s_query,s_filter)
-		result = freesound_client.text_search(query=s_query,page_size=s_amount, filter=s_filter,sort="rating_desc",fields="id,name,tags,username,license,previews")
+		result = freesound_client.text_search(query=s_query,page_size=s_amount, filter=s_filter,sort="rating_desc",fields="id,name,tags,username,license,previews,type")
 
 		total = result.count
 
@@ -147,16 +152,18 @@ def main(argv=None):
 
 		if s_download == True:
 			# put samples in new dir
-			s_query = s_query.replace(" +","&")
+			s_query = s_query.replace(" +","-")
 			home = expanduser("~")
 			new_dir = home + "/Music/Freesound/" + s_query + "_sounds"
 			mkdir_p(new_dir)
 
 			for sound in result:
-				print "downloading....\t-", sound.name, "id:", sound.id
-				file_name = sound.name+"_"+str(sound.id)+"_hq.mp3"
-				sound.retrieve_preview(directory=new_dir,name=file_name)
-		
+				name = sound.name.replace("/","")
+				print "downloading....\t-", name, "id:", sound.id, "type:", sound.type
+				file_name = name+"_"+str(sound.id)+"_hq." + sound.type
+				# print file_name
+				# sound.retrieve_preview(directory=new_dir,name=file_name)
+				sound.retrieve(directory=new_dir,name=file_name)
 
 			
 	except Usage, err:
