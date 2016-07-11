@@ -1,0 +1,3 @@
+[submodule "freesound"]
+	path = freesound
+	url = https://sohla@github.com/MTG/freesound-python.git
