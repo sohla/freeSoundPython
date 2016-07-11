@@ -10,7 +10,7 @@ Copyright (c) 2012 soh_la. All rights reserved.
 import sys
 import os
 from subprocess import call
-
+from os.path import expanduser
 import errno
 
 import getopt
@@ -148,7 +148,8 @@ def main(argv=None):
 		if s_download == True:
 			# put samples in new dir
 			s_query = s_query.replace(" +","&")
-			new_dir = s_query + "_sounds"
+			home = expanduser("~")
+			new_dir = home + "/Music/Freesound/" + s_query + "_sounds"
 			mkdir_p(new_dir)
 
 			for sound in result:
