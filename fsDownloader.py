@@ -40,7 +40,7 @@ fsDownloader
 
 freesound_client = freesound.FreesoundClient()
 # freesound_client.set_token("bfa791a021762f7c6cb70088c720855a0c5f8f49")
-freesound_client.set_token("ymgL9XPzSyjLHj1kWSufNnzqFife6S", auth_type='oauth')
+freesound_client.set_token("LAfK09aY0HfZJbl2kzSVL8jjYLAOKw", auth_type='oauth')
 
 
 class Usage(Exception):
